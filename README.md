@@ -15,41 +15,27 @@ A comprehensive task management system built with Laravel, featuring a modern UI
 
 ## 📸 Screenshots
 
-### Dashboard & Task Management
-![Dashboard](https://github.com/user-attachments/assets/your-dashboard-image-url)
-![Task List](https://github.com/user-attachments/assets/your-task-list-image-url)
-![Task Details](https://github.com/user-attachments/assets/your-task-details-image-url)
 
-### Forms & Authentication
-![Create Task](https://github.com/user-attachments/assets/your-create-task-image-url)
-![Login Page](https://github.com/user-attachments/assets/your-login-page-image-url)
-![User Profile](https://github.com/user-attachments/assets/your-user-profile-image-url)
-![Mobile View](https://github.com/user-attachments/assets/your-mobile-view-image-url)
 
-### Advanced Features
+### Dashboards and Registration
 
--   **Overdue Task Management** - Collapsible overdue tasks with warning indicators
--   **Days Remaining Calculator** - Color-coded badges showing time until due date
--   **Task Completion Toggle** - JavaScript-powered completion with localStorage persistence
--   **Responsive Navigation** - Auto-hiding header on scroll for mobile optimization
--   **Real-time Clock** - Live updating time display in navigation pills
 
-### UI/UX Enhancements
+![Dashboard](screenshots/dashboard.png)
 
--   **Glassmorphism Design** - Modern translucent cards with backdrop blur effects
--   **Priority-based Styling** - Visual color coding (Red: High, Orange: Medium, Green: Low)
--   **Smooth Animations** - Subtle hover effects and transitions
--   **Mobile Responsive** - Optimized layout for all screen sizes
--   **Interactive Elements** - Confirmation dialogs and visual feedback
+![Task List](screenshots/task-list.png)
 
-### Technical Features
+![Task Details](screenshots/task-details.png)
 
--   **Laravel Framework** - Built on Laravel with MVC architecture
--   **Carbon Date Handling** - Advanced date manipulation and formatting
--   **Custom CSS Architecture** - Modular styling with CSS variables
--   **JavaScript Integration** - Enhanced interactivity with vanilla JS
--   **Form Validation** - Client and server-side validation
--   **Session Management** - Flash messages and user state persistence
+### Forms and Task Management
+![Create Task](screenshots/create-task.png)
+
+![Login Page](screenshots/login-page.png)
+
+![Mobile View](screenshots/mobile-view.png)
+
+![User Profile](screenshots/user-profile.png)
+
+
 
 ## 🛠️ Technology Stack
 
@@ -75,12 +61,6 @@ A comprehensive task management system built with Laravel, featuring a modern UI
 -   **Action Buttons** - View, Edit, Delete with confirmation
 -   **Completion System** - Toggle completion status with visual feedback
 
-### Forms & Navigation
-
--   **Enhanced Forms** - Date pickers with quick selection buttons
--   **Pill Navigation** - Modern pill-shaped navigation elements
--   **Live Updates** - Real-time clock and dynamic content
-
 ## 🎨 Design Philosophy
 
 The application follows a modern design approach with:
@@ -91,21 +71,12 @@ The application follows a modern design approach with:
 -   **Responsive Design** - Mobile-first approach with adaptive layouts
 -   **Accessibility** - High contrast ratios and keyboard navigation support
 
-## 📋 Key Components
-
-1. **Authentication System** - Custom styled login/register pages
-2. **Task Dashboard** - Main interface with task listing and management
-3. **Task Forms** - Create/edit forms with enhanced date inputs
-4. **Task Details** - Detailed view with animated containers
-5. **Overdue Management** - Special handling for overdue tasks
-6. **Mobile Navigation** - Responsive header with scroll behavior
-
 ## 🚀 Installation
 
 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/task-manager.git
+git clone https://github.com/YashSHIrsath/Notion.git
 ```
 
 2. Install dependencies
