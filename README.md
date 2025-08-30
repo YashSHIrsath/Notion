@@ -17,7 +17,7 @@ A comprehensive task management system built with Laravel, featuring a modern UI
 
 Screenshots are stored in Notion/screenshots. Paths below are relative to the repository root.
 
-### Dashboard & Task Management
+### Task Management
 
 ![Dashboard](screenshots/dashboard.png)
 
@@ -25,7 +25,7 @@ Screenshots are stored in Notion/screenshots. Paths below are relative to the re
 
 ![Task Details](screenshots/task-details.png)
 
-### Forms & Authentication
+### Forms , Dashboards and Registration
 
 ![Create Task](screenshots/create-task.png)
 
