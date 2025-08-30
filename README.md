@@ -16,15 +16,15 @@ A comprehensive task management system built with Laravel, featuring a modern UI
 ## 📸 Screenshots
 
 ### Dashboard & Task Management
-![Dashboard](screenshots/dashboard.png)
-![Task List](screenshots/task-list.png)
-![Task Details](screenshots/task-details.png)
+![Dashboard](dashboard.png)
+![Task List](task-list.png)
+![Task Details](task-details.png)
 
 ### Forms & Authentication
-![Create Task](screenshots/create-task.png)
-![Login Page](screenshots/login-page.png)
-![User Profile](screenshots/user-profile.png)
-![Mobile View](screenshots/mobile-view.png)
+![Create Task](create-task.png)
+![Login Page](login-page.png)
+![User Profile](user-profile.png)
+![Mobile View](mobile-view.png)
 
 ### Advanced Features
 
