@@ -16,8 +16,8 @@ A comprehensive task management system built with Laravel, featuring a modern UI
 ## 📸 Screenshots
 
 ### Dashboard & Task Management
-![img ult]([https://github.com/user-attachments/assets/your-create-task-image-url](https://github.com/YashSHIrsath/Notion/blob/f48f8e3fc8d94a91e2c2d2f91fcd42fa090cc456/screenshots/create-task.png))
-![Edit Task]([https://github.com/user-attachments/assets/your-task-list-image-url](https://github.com/YashSHIrsath/Notion/blob/f48f8e3fc8d94a91e2c2d2f91fcd42fa090cc456/screenshots/user-profile.png))
+![Dashboard](https://github.com/user-attachments/assets/your-create-task-image-url](https://github.com/YashSHIrsath/Notion/blob/f48f8e3fc8d94a91e2c2d2f91fcd42fa090cc456/screenshots/create-task.png)
+![Edit Task](https://github.com/user-attachments/assets/your-task-list-image-url](https://github.com/YashSHIrsath/Notion/blob/f48f8e3fc8d94a91e2c2d2f91fcd42fa090cc456/screenshots/user-profile.png)
 ![All Task Details]([https://github.com/user-attachments/assets/your-task-details-image-url](https://github.com/YashSHIrsath/Notion/blob/f48f8e3fc8d94a91e2c2d2f91fcd42fa090cc456/screenshots/dashboard.png))
 
 ### Forms & Authentication
