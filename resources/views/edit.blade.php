@@ -80,11 +80,16 @@
 
                             <div class="form-group">
                                 <label for="category">Category</label>
-                                <select name="category" id="category" required>
+                                <select name="category" id="category" onchange="toggleCustomCategory()" required>
                                     <option value="Casual" {{ $task->category == 'Casual' ? 'selected' : '' }}>Casual</option>
                                     <option value="Business" {{ $task->category == 'Business' ? 'selected' : '' }}>Business</option>
                                     <option value="Fun" {{ $task->category == 'Fun' ? 'selected' : '' }}>Fun</option>
+                                    @if(!in_array($task->category, ['Casual', 'Business', 'Fun']))
+                                        <option value="{{ $task->category }}" selected>{{ $task->category }}</option>
+                                    @endif
+                                    <option value="custom">+ Add Custom Category</option>
                                 </select>
+                                <input type="text" name="custom_category" id="custom_category" placeholder="Enter custom category" style="display:none;margin-top:0.5rem;">
                             </div>
                         </div>
 
@@ -161,5 +166,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial check
     updateActiveButton();
 });
+
+function toggleCustomCategory() {
+    const categorySelect = document.getElementById('category');
+    const customInput = document.getElementById('custom_category');
+    
+    if (categorySelect.value === 'custom') {
+        customInput.style.display = 'block';
+        customInput.required = true;
+        categorySelect.name = '';
+        customInput.name = 'category';
+    } else {
+        customInput.style.display = 'none';
+        customInput.required = false;
+        categorySelect.name = 'category';
+        customInput.name = 'custom_category';
+    }
+}
 </script>
 </html>

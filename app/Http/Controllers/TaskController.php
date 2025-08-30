@@ -11,20 +11,42 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Option 1: Using relationship - ordered by due date then recently added
-        $tasks = Auth::user()->tasks()
-            ->orderBy('due_date', 'asc')
-            ->latest()
-            ->get();
+        $search = $request->get('search');
+        $sort = $request->get('sort', 'due_date_asc');
+        
+        $query = Auth::user()->tasks()
+            ->when($search, function($query, $search) {
+                return $query->where('title', 'LIKE', "%{$search}%")
+                           ->orWhere('description', 'LIKE', "%{$search}%")
+                           ->orWhere('category', 'LIKE', "%{$search}%");
+            });
+            
+        // Apply sorting
+        switch($sort) {
+            case 'due_date_desc':
+                $query->orderBy('due_date', 'desc');
+                break;
+            case 'title_asc':
+                $query->orderBy('title', 'asc');
+                break;
+            case 'title_desc':
+                $query->orderBy('title', 'desc');
+                break;
+            case 'created_asc':
+                $query->orderBy('created_at', 'asc');
+                break;
+            case 'created_desc':
+                $query->orderBy('created_at', 'desc');
+                break;
+            default: // due_date_asc
+                $query->orderBy('due_date', 'asc');
+        }
+        
+        $tasks = $query->get();
 
-        // Option 2: Direct query (same result)
-        // $tasks = Task::where('user_id', Auth::id())
-        //     ->orderBy('due_date', 'asc')
-        //     ->latest()->get();
-
-        return view('index', compact('tasks'));
+        return view('index', compact('tasks', 'search'));
     }
 
     /**

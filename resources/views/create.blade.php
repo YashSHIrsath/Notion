@@ -142,11 +142,13 @@
 
                             <div class="form-group">
                                 <label for="category">Category</label>
-                                <select name="category" id="category" required>
+                                <select name="category" id="category" onchange="toggleCustomCategory()" required>
                                     <option value="Casual">Casual</option>
                                     <option value="Business">Business</option>
                                     <option value="Fun">Fun</option>
+                                    <option value="custom">+ Add Custom Category</option>
                                 </select>
+                                <input type="text" name="custom_category" id="custom_category" placeholder="Enter custom category" style="display:none;margin-top:0.5rem;">
                             </div>
                         </div>
 
@@ -238,5 +240,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
     setInterval(updateTime, 1000);
 });
+
+function toggleCustomCategory() {
+    const categorySelect = document.getElementById('category');
+    const customInput = document.getElementById('custom_category');
+    
+    if (categorySelect.value === 'custom') {
+        customInput.style.display = 'block';
+        customInput.required = true;
+        categorySelect.name = '';
+        customInput.name = 'category';
+    } else {
+        customInput.style.display = 'none';
+        customInput.required = false;
+        categorySelect.name = 'category';
+        customInput.name = 'custom_category';
+    }
+}
 </script>
 </html>
