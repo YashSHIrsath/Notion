@@ -19,19 +19,19 @@ Screenshots are stored in Notion/screenshots. Paths below are relative to the re
 
 ### Dashboard & Task Management
 
-![Dashboard](Notion/screenshots/dashboard.png)
+![Dashboard](screenshots/dashboard.png)
 
-![Task List](Notion/screenshots/task-list.png)
+![Task List](screenshots/task-list.png)
 
-![Task Details](Notion/screenshots/task-details.png)
+![Task Details](screenshots/task-details.png)
 
 ### Forms & Authentication
 
-![Create Task](Notion/screenshots/create-task.png)
+![Create Task](screenshots/create-task.png)
 
-![Login Page](Notion/screenshots/login-page.png)
+![Login Page](screenshots/login-page.png)
 
-![Mobile View](Notion/screenshots/mobile-view.png)
+![Mobile View](screenshots/mobile-view.png)
 
 ![User Profile](screenshots/user-profile.png)
 
