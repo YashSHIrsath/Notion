@@ -33,12 +33,9 @@ Screenshots are stored in Notion/screenshots. Paths below are relative to the re
 
 ![Mobile View](Notion/screenshots/mobile-view.png)
 
-![User Profile](Notion/screenshots/user-profile.png)
+![User Profile](screenshots/user-profile.png)
 
-> Notes:
-> - If any filenames differ, replace the placeholders above with the exact filenames (including extension).
-> - To control display width use an HTML <img> tag, e.g.:
->   <img src="Notion/screenshots/dashboard.png" alt="Dashboard" width="700" />
+
 
 ## 🛠️ Technology Stack
 
