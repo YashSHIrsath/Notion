@@ -12,7 +12,19 @@ A comprehensive task management system built with Laravel, featuring a modern UI
 -   **Due Date Management** - Date tracking with overdue detection
 -   **Task Categories** - Organize tasks by Business, Casual, Fun categories
 -   **Status Tracking** - Pending, In Progress, Completed status management
-    ![alt text](<Screenshot 2025-08-30 171318.png>) ![alt text](<Screenshot 2025-08-30 171450.png>) ![alt text](<Screenshot 2025-08-30 171436.png>) ![alt text](<Screenshot 2025-08-30 171417.png>) ![alt text](<Screenshot 2025-08-30 171400.png>) ![alt text](<Screenshot 2025-08-30 171342.png>) ![alt text](<Screenshot 2025-08-30 171331.png>)
+
+## 📸 Screenshots
+
+### Dashboard & Task Management
+![Dashboard](screenshots/dashboard.png)
+![Task List](screenshots/task-list.png)
+![Task Details](screenshots/task-details.png)
+
+### Forms & Authentication
+![Create Task](screenshots/create-task.png)
+![Login Page](screenshots/login-page.png)
+![User Profile](screenshots/user-profile.png)
+![Mobile View](screenshots/mobile-view.png)
 
 ### Advanced Features
 
