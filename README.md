@@ -1,6 +1,6 @@
 # Notion - Modern Laravel Task Managing Application
 
-A comprehensive task management system built with Laravel, featuring a modern glassmorphism UI design and advanced task organization capabilities.
+A comprehensive task management system built with Laravel, featuring a modern UI design and advanced task organization capabilities.
 
 ## 🚀 Features
 
