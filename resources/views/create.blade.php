@@ -74,7 +74,7 @@
                 </div>
                 <div class="header-actions">
                     <a href="{{ route('tasks.index') }}" class="nav-btn nav-btn-outline">
-                        <i class="fas fa-list"></i>
+                        <i class="fas fa-list"></i> 
                         <span>Tasks</span>
                     </a>
                     <a href="/dashboard" class="nav-btn nav-btn-outline">
