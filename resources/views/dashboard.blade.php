@@ -6,218 +6,213 @@
     <title>Dashboard - Task Manager</title>
     <link rel="stylesheet" href="{{ asset('css/business-tasks.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Baumans&family=Playwrite+DE+Grund:wght@100..400&display=swap');
-        .dashboard-hero {
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .welcome-card {
+            grid-column: 1 / -1;
             background: var(--card);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: 1.5rem;
-            padding: 3rem;
-            margin: 2rem auto;
-            max-width: 900px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.1), 0 4px 25px -5px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.8s ease-out;
+            padding: 2rem;
+            transition: var(--transition);
         }
         
-        .dashboard-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.8s;
-        }
-        
-        .dashboard-hero:hover {
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 20px 60px -10px rgba(59, 130, 246, 0.2), 0 8px 40px -5px rgba(0, 0, 0, 0.15);
-        }
-        
-        .dashboard-hero:hover::before {
-            left: 100%;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .user-profile {
+        .welcome-content {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-            justify-content: center;
+            justify-content: space-between;
+            gap: 2rem;
         }
         
-        .profile-image {
+        .welcome-left {
+            flex: 1;
+        }
+        
+        .greeting-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .welcome-left h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0 0 0.5rem 0;
+            line-height: 1.1;
+        }
+        
+        .welcome-left p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        
+        .welcome-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid var(--primary);
-            box-shadow: var(--shadow);
-        }
-        
-        .profile-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .profile-placeholder {
-            width: 100%;
-            height: 100%;
             background: linear-gradient(135deg, var(--primary), var(--primary-hover));
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
-            color: white;
             font-weight: 600;
+            color: white;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         }
         
-        .profile-image img {
+        .current-time {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .stats-card {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
             transition: var(--transition);
         }
         
-        .profile-image img:hover {
-            transform: scale(1.05);
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
         }
         
-        .profile-info {
-            text-align: left;
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .quick-actions {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 1rem;
         }
         
-        .hero-title {
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: var(--text);
-            margin: 0 0 0.5rem 0;
-            line-height: 1.2;
-        }
-        
-        .user-email {
-            color: var(--text-muted);
-            font-size: 1rem;
-            margin: 0;
-            font-weight: 500;
-        }
-        
-        .user-name-highlight-dashboard {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 600;
-            font-family: "Playwrite DE Grund", cursive;
-        }
-        
-        .user-email-highlight-dashboard {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 500;
-            font-family: "Playwrite DE Grund", cursive;
-        }
-        
-
-        
-        .hero-subtitle {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin: 0 0 2.5rem;
-            font-weight: 500;
-            line-height: 1.5;
-        }
-        
-        .hero-actions {
+        .action-btn {
             display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .hero-btn {
-            display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 1rem 2rem;
-            border-radius: 2rem;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
             text-decoration: none;
+            font-weight: 500;
             transition: var(--transition);
-            box-shadow: var(--shadow);
-            min-width: 180px;
-            justify-content: center;
+            border: 1px solid transparent;
         }
         
-        .hero-btn-primary {
+        .action-btn.primary {
             background: var(--primary);
             color: white;
         }
         
-        .hero-btn-primary:hover {
+        .action-btn.primary:hover {
             background: var(--primary-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
         
-        .hero-btn-secondary {
-            background: rgba(13, 110, 253, 0.1);
-            color: #0d6efd;
-            border: 1px solid rgba(13, 110, 253, 0.2);
+        .action-btn.secondary {
+            background: var(--surface);
+            color: var(--text);
+            border-color: var(--border);
         }
         
-        .hero-btn-secondary:hover {
-            background: #0d6efd;
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-lg);
+        .action-btn.secondary:hover {
+            background: var(--card);
+            transform: translateY(-2px);
+        }
+        
+        .productivity-card {
+            grid-column: 1 / -1;
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            transition: var(--transition);
+        }
+        
+        .productivity-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0 0 0.75rem 0;
+        }
+        
+        .productivity-card p {
+            color: var(--text-muted);
+            margin: 0 0 1.5rem 0;
+            line-height: 1.6;
+        }
+        
+        .productivity-features {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        .feature-item i {
+            color: var(--primary);
         }
         
         @media (max-width: 768px) {
-            .dashboard-hero {
-                padding: 2rem;
-                margin: 1rem;
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
             
-            .user-profile {
+            .welcome-content {
                 flex-direction: column;
                 text-align: center;
             }
             
-            .hero-title {
-                font-size: 1.875rem;
+            .welcome-text h1 {
+                font-size: 1.5rem;
             }
             
-            .hero-actions {
+            .productivity-features {
                 flex-direction: column;
-                align-items: center;
-            }
-            
-            .hero-btn {
-                width: 100%;
-                max-width: 300px;
+                gap: 1rem;
             }
         }
     </style>
@@ -232,22 +227,22 @@
                 </div>
 
                 <div class="header-actions">
-                    <a href="{{ route('tasks.create') }}" class="create-btn">
-                        <span class="create-icon">+</span>
-                        <span>New Task</span>
+                    <a href="{{ route('tasks.create') }}" class="nav-btn">
+                        <i class="fas fa-plus"></i>
+                        <span>Create</span>
                     </a>
 
                     @if(\App\Models\Task::where('user_id', Auth::id())->exists())
-                        <a href="{{ route('tasks.index') }}" class="create-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.12);">
-                            <span class="create-icon">📋</span>
-                            <span>All Tasks</span>
+                        <a href="{{ route('tasks.index') }}" class="nav-btn nav-btn-outline">
+                            <i class="fas fa-list"></i>
+                            <span>Tasks</span>
                         </a>
                     @endif
 
                     <form action="{{ route('logout') }}" method="POST" class="logout-form">
                         @csrf
-                        <button type="submit" class="logout-btn">
-                            <span class="logout-icon">⏻</span>
+                        <button type="submit" class="nav-btn nav-btn-danger">
+                            <i class="fas fa-sign-out-alt"></i>
                             <span>Logout</span>
                         </button>
                     </form>
@@ -260,33 +255,56 @@
         @endif
 
         <main class="main-content">
-            <section class="dashboard-hero">
-                <div class="user-profile">
-                    <div class="profile-image">
-                        <div class="profile-placeholder">
-                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+            <div class="dashboard-grid">
+                <div class="welcome-card">
+                    <div class="welcome-content">
+                        <div class="welcome-left">
+                            <div class="greeting-badge">{{ date('H') < 12 ? 'Good Morning' : (date('H') < 18 ? 'Good Afternoon' : 'Good Evening') }}</div>
+                            <h1>{{ ucwords(Auth::user()->name) }}</h1>
+                            <p>Let's make today productive and organized</p>
+                        </div>
+                        <div class="welcome-right">
+                            <div class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
+                            <div class="current-time">{{ date('M j, Y') }}</div>
                         </div>
                     </div>
-                    <div class="profile-info">
-                        <h2 class="hero-title"><span class="user-name-highlight-dashboard">{{ ucwords(Auth::user()->name) }}</span></h2>
-                        <p class="user-email"><span class="user-email-highlight-dashboard">{{ Auth::user()->email }}</span></p>
+                </div>
+                
+                <div class="stats-card">
+                    <div class="stat-item">
+                        <div class="stat-number">{{ \App\Models\Task::where('user_id', Auth::id())->count() }}</div>
+                        <div class="stat-label">Total Tasks</div>
                     </div>
                 </div>
-                <p class="hero-subtitle">Manage your tasks efficiently and stay organized with your personal task management system.</p>
-
-                <div class="hero-actions">
-                    <a href="{{ route('tasks.create') }}" class="hero-btn hero-btn-primary">
-                        <span>✨</span>
-                        <span>Create New Task</span>
+                
+                <div class="quick-actions">
+                    <a href="{{ route('tasks.create') }}" class="action-btn primary">
+                        <i class="fas fa-plus"></i>
+                        <span>New Task</span>
                     </a>
                     @if(\App\Models\Task::where('user_id', Auth::id())->exists())
-                        <a href="{{ route('tasks.index') }}" class="hero-btn hero-btn-secondary">
-                            <span>📋</span>
-                            <span>View All Tasks</span>
+                        <a href="{{ route('tasks.index') }}" class="action-btn secondary">
+                            <i class="fas fa-list"></i>
+                            <span>View Tasks</span>
                         </a>
                     @endif
                 </div>
-            </section>
+                
+                <div class="productivity-card">
+                    <h3>Stay Productive</h3>
+                    <p>Organize your workflow and achieve your goals with our intuitive task management system.</p>
+                    <div class="productivity-features">
+                        <div class="feature-item">
+                            <i class="fas fa-bolt"></i>
+                            <span>Fast & Efficient</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Mobile Friendly</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 </body>

@@ -21,24 +21,24 @@
 
                 <div class="header-actions">
                     <form action="{{ route('tasks.index') }}" method="GET" class="search-form">
-                        <input type="text" name="search" placeholder="Search tasks..." value="{{ $search }}" class="search-input">
+                        <input type="text" name="search" placeholder="Search..." value="{{ $search }}" class="search-input">
                         <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
                     </form>
-                    
-                    <a href="/dashboard" class="create-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.12);">
-                        <span class="create-icon"><i class="fas fa-home"></i></span>
-                        <span>Dashboard</span>
+
+                    <a href="/dashboard" class="nav-btn nav-btn-outline">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
                     </a>
 
-                    <a href="{{ route('tasks.create') }}" class="create-btn">
-                        <span class="create-icon"><i class="fas fa-plus"></i></span>
-                        <span>New Task</span>
+                    <a href="{{ route('tasks.create') }}" class="nav-btn">
+                        <i class="fas fa-plus"></i>
+                        <span>Create</span>
                     </a>
 
                     <form action="{{ route('logout') }}" method="POST" class="logout-form">
                         @csrf
-                        <button type="submit" class="logout-btn">
-                            <span class="logout-icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <button type="submit" class="nav-btn nav-btn-danger">
+                            <i class="fas fa-sign-out-alt"></i>
                             <span>Logout</span>
                         </button>
                     </form>
@@ -55,12 +55,12 @@
                 <form action="{{ route('tasks.index') }}" method="GET" class="sort-form">
                     <input type="hidden" name="search" value="{{ $search }}">
                     <select name="sort" class="sort-select" onchange="this.form.submit()">
-                        <option value="due_date_asc" {{ request('sort') == 'due_date_asc' ? 'selected' : '' }}>📅 Due Date ↑</option>
-                        <option value="due_date_desc" {{ request('sort') == 'due_date_desc' ? 'selected' : '' }}>📅 Due Date ↓</option>
-                        <option value="title_asc" {{ request('sort') == 'title_asc' ? 'selected' : '' }}>📝 Title A-Z</option>
-                        <option value="title_desc" {{ request('sort') == 'title_desc' ? 'selected' : '' }}>📝 Title Z-A</option>
-                        <option value="created_asc" {{ request('sort') == 'created_asc' ? 'selected' : '' }}>📆 Created ↑</option>
-                        <option value="created_desc" {{ request('sort') == 'created_desc' ? 'selected' : '' }}>📆 Created ↓</option>
+                        <option value="due_date_asc" {{ request('sort') == 'due_date_asc' ? 'selected' : '' }}><i class="fas fa-calendar-alt"></i> Due Date △</option>
+                        <option value="due_date_desc" {{ request('sort') == 'due_date_desc' ? 'selected' : '' }}><i class="fas fa-calendar-alt"></i> Due Date ▽</option>
+                        <option value="title_asc" {{ request('sort') == 'title_asc' ? 'selected' : '' }}><i class="fas fa-sort-alpha-down"></i> Title A-Z</option>
+                        <option value="title_desc" {{ request('sort') == 'title_desc' ? 'selected' : '' }}><i class="fas fa-sort-alpha-up"></i> Title Z-A</option>
+                        <option value="created_asc" {{ request('sort') == 'created_asc' ? 'selected' : '' }}><i class="fas fa-calendar-plus"></i> Created △</option>
+                        <option value="created_desc" {{ request('sort') == 'created_desc' ? 'selected' : '' }}><i class="fas fa-calendar-plus"></i> Created ▽</option>
                     </select>
                 </form>
             </div>
@@ -69,106 +69,120 @@
                     @php
                         $isOverdue = \Carbon\Carbon::parse($task->due_date)->isPast() && \Carbon\Carbon::parse($task->due_date)->format('Y-m-d') < date('Y-m-d');
                         $daysRemaining = ceil(\Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($task->due_date), false));
-                        $daysRemainingClass = $daysRemaining < 0 ? 'overdue' : ($daysRemaining <= 3 ? 'urgent' : ($daysRemaining <= 7 ? 'warning' : 'safe'));
+                        $daysRemainingClass = $daysRemaining < 0 ? 'overdue' : ($daysRemaining <= 1 ? 'urgent' : ($daysRemaining <= 3 ? 'warning' : 'safe'));
                     @endphp
-                    <article class="task-item priority-{{ $task->priority }} {{ $isOverdue ? 'overdue collapsed' : '' }}" data-task-id="{{ $task->id }}">
-                        @if($isOverdue)
-                            <div class="overdue-bar" onclick="toggleOverdueTask({{ $task->id }})">
-                                <div class="overdue-bar-content">
-                                    <span class="overdue-bar-title">{{ ucfirst($task->title) }}</span>
-                                    <span class="overdue-bar-date">{{ \Carbon\Carbon::parse($task->due_date)->format('M d, Y') }}</span>
-                                    <span class="overdue-expand-icon"><i class="fas fa-chevron-down"></i></span>
+                    <article class="task-item priority-{{ $task->priority }} collapsed" data-task-id="{{ $task->id }}">
+                        <div class="task-bar" onclick="toggleTask({{ $task->id }})">
+                            <div class="task-bar-left">
+                                <div class="task-bar-title">{{ ucfirst($task->title) }}</div>
+                                <div class="task-bar-meta task-bar-collapsed">
+                                    <span class="priority-badge priority-{{ $task->priority }}">{{ ucfirst($task->priority) }}</span>
+                                    @if ($task->status == 1)
+                                        <span class="status completed"><i class="fas fa-check-circle"></i></span>
+                                    @elseif($task->status == 0)
+                                        <span class="status in-progress"><i class="fas fa-spinner"></i></span>
+                                    @else
+                                        <span class="status pending"><i class="fas fa-pause-circle"></i></span>
+                                    @endif
+                                    <span class="due-pill">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        {{ \Carbon\Carbon::parse($task->due_date)->format('M d') }}
+                                    </span>
+                                    <span class="days-pill {{ $daysRemainingClass }}">
+                                        <i class="fas fa-clock"></i>
+                                        @if($daysRemaining < 0)
+                                            {{ abs(ceil($daysRemaining)) }}d overdue
+                                        @elseif($daysRemaining == 0)
+                                            Due today
+                                        @elseif($daysRemaining == 1)
+                                            1d left
+                                        @else
+                                            {{ ceil($daysRemaining) }}d left
+                                        @endif
+                                    </span>
+                                </div>
+                                <div class="task-bar-meta task-bar-expanded" style="display: none;">
+                                    @if ($task->status == 1)
+                                        <span class="status completed"><i class="fas fa-check-circle"></i></span>
+                                    @elseif($task->status == 0)
+                                        <span class="status in-progress"><i class="fas fa-spinner"></i></span>
+                                    @else
+                                        <span class="status pending"><i class="fas fa-pause-circle"></i></span>
+                                    @endif
                                 </div>
                             </div>
-                        @endif
-                        <div class="task-header {{ $isOverdue ? 'task-content' : '' }}">
-                            <div class="task-title-section">
-                                <span class="task-id">{{ \Carbon\Carbon::parse($task->created_at)->format('M d, Y') }}</span>
-                                <h3 class="task-title">{{ ucfirst($task->title) }}</h3>
+                            <div class="task-bar-actions">
+                                <button class="task-bar-btn complete-circle" onclick="event.stopPropagation(); toggleComplete({{ $task->id }})" title="@if($task->status == 1)Mark Incomplete @else Mark Complete @endif">
+                                    @if($task->status == 1)
+                                        <i class="fas fa-check-circle"></i>
+                                    @else
+                                        <i class="far fa-circle"></i>
+                                    @endif
+                                </button>
+                                <a href="{{ route('tasks.show', $task->id) }}" class="task-bar-btn view" onclick="event.stopPropagation()"><i class="fas fa-eye"></i></a>
+                                <a href="{{ route('tasks.edit', $task->id) }}" class="task-bar-btn edit" onclick="event.stopPropagation()"><i class="fas fa-edit"></i></a>
+                                <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="delete-form" style="display: inline;">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="task-bar-btn delete" onclick="event.stopPropagation(); return confirm('Delete task?')"><i class="fas fa-trash"></i></button>
+                                </form>
+                                <i class="fas fa-chevron-down expand-icon"></i>
                             </div>
-                            @if ($task->status == 1)
-                                <span class="status completed"><i class="fas fa-check"></i></span>
-                            @elseif($task->status == 0)
-                                <span class="status in-progress"><i class="fas fa-clock"></i></span>
-                            @elseif($task->status == -1)
-                                <span class="status pending"><i class="fas fa-pause"></i></span>
-                            @else
-                                <span class="status unknown"><i class="fas fa-question"></i></span>
-                            @endif
                         </div>
                         
-                        @if($isOverdue && $task->status != 1)
-                            <div class="overdue-message">
-                                <span class="overdue-icon"><i class="fas fa-exclamation-triangle"></i></span>
-                                <span class="overdue-text">Task was not completed by due date</span>
-                            </div>
-                        @endif
-
-                        <div class="task-meta {{ $isOverdue ? 'task-content' : '' }}">
-                            <div class="meta-item due-date-highlight">
-                                <span class="meta-icon"><i class="fas fa-calendar-alt"></i></span>
-                                <span class="meta-label">Due:</span>
-                                <span class="meta-value">{{ \Carbon\Carbon::parse($task->due_date)->format('M d, Y') }}</span>
-                            </div>
-                            <div class="meta-item priority-highlight">
-                                <span class="priority-badge priority-{{ $task->priority }}">{{ ucfirst($task->priority) }} Priority</span>
-                            </div>
-                            <div class="meta-item category-highlight">
-                                <span class="category-badge">{{ $task->category }}</span>
-                            </div>
-                            <div class="meta-item days-remaining-highlight">
-                                <span class="days-remaining-badge {{ $daysRemainingClass }}">
+                        <div class="task-content">
+                            <div class="task-pills-expanded">
+                                <span class="priority-badge priority-{{ $task->priority }}">{{ ucfirst($task->priority) }}</span>
+                                <span class="due-pill">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    {{ \Carbon\Carbon::parse($task->due_date)->format('M d, Y') }}
+                                </span>
+                                <span class="days-pill {{ $daysRemainingClass }}">
+                                    <i class="fas fa-clock"></i>
                                     @if($daysRemaining < 0)
-                                        {{ abs(ceil($daysRemaining)) }} days overdue
+                                        {{ abs(ceil($daysRemaining)) }}d overdue
                                     @elseif($daysRemaining == 0)
                                         Due today
                                     @elseif($daysRemaining == 1)
-                                        1 day left
+                                        1d left
                                     @else
-                                        {{ ceil($daysRemaining) }} days left
+                                        {{ ceil($daysRemaining) }}d left
                                     @endif
                                 </span>
-                            </div>
-                        </div>
-                        
-                        <div class="task-description-section {{ $isOverdue ? 'task-content' : '' }}">
-                            <pre class="task-description">{{ ucfirst($task->description) }}</pre>
-                        </div>
-                        
-                        <div class="task-footer {{ $isOverdue ? 'task-content' : '' }}">
-                            @if($isOverdue)
-                                <button class="collapse-btn" onclick="toggleOverdueTask({{ $task->id }})">
-                                    <span><i class="fas fa-chevron-up"></i></span>
-                                    <span>Collapse</span>
-                                </button>
-                            @endif
-                            <div class="task-actions">
-                                @if(!$isOverdue)
-                                    <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-view"><i class="fas fa-eye"></i> View</a>
-                                    <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-edit"><i class="fas fa-edit"></i> Edit</a>
-                                @endif
-                                <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="delete-form">
-                                    @csrf 
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this task?')"><i class="fas fa-trash"></i> Delete{{ $isOverdue ? ' Task' : '' }}</button>
-                                </form>
+                                <span class="created-pill">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    Created {{ \Carbon\Carbon::parse($task->created_at)->format('M d, Y') }}
+                                </span>
+                                <span class="category-badge">{{ $task->category }}</span>
                             </div>
                             
-                            <button class="complete-btn {{ $isOverdue ? '' : 'full-width' }}">
-                                @if($task->status == 1)
-                                    ❌ Not Complete
-                                @else
-                                    ✅ Mark Complete
-                                @endif
-                            </button>
+                            @if($isOverdue && $task->status != 1)
+                                <div class="overdue-message">
+                                    <span class="overdue-icon"><i class="fas fa-exclamation-triangle"></i></span>
+                                    <span class="overdue-text">Task was not completed by due date</span>
+                                </div>
+                            @endif
+                            
+                            <div class="task-description-section">
+                                <pre class="task-description">{{ ucfirst($task->description) }}</pre>
+                            </div>
+                            
+                            <div class="task-footer">
+                                <button class="complete-btn full-width" onclick="toggleComplete({{ $task->id }})">
+                                    @if($task->status == 1)
+                                        <i class="fas fa-times-circle"></i> Mark Incomplete
+                                    @else
+                                        <i class="fas fa-check-circle"></i> Mark Complete
+                                    @endif
+                                </button>
+                            </div>
                         </div>
                     </article>
                 @empty
                     <div class="empty-state">
-                        <div class="empty-icon">📝</div>
+                        <div class="empty-icon"><i class="fas fa-clipboard-list fa-3x"></i></div>
                         <h3>No tasks yet</h3>
                         <p>Create your first task to get started</p>
-                        <a href="{{ route('tasks.create') }}" class="btn btn-primary">✨ Create Task</a>
+                        <a href="{{ route('tasks.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Create Task</a>
                     </div>
                 @endforelse
             </div>
@@ -178,15 +192,15 @@
 
 <script src="{{ asset('js/custom.js')  }}"></script>
 <script>
-function toggleOverdueTask(taskId) {
+function toggleTask(taskId) {
     const taskItem = document.querySelector(`[data-task-id="${taskId}"]`);
-    if (taskItem.classList.contains('collapsed')) {
-        taskItem.classList.remove('collapsed');
-        taskItem.classList.add('expanded');
-    } else {
-        taskItem.classList.remove('expanded');
-        taskItem.classList.add('collapsed');
-    }
+    taskItem.classList.toggle('collapsed');
+    taskItem.classList.toggle('expanded');
+}
+
+function toggleComplete(taskId) {
+    // Add your completion toggle logic here
+    console.log('Toggle complete for task:', taskId);
 }
 </script>
 

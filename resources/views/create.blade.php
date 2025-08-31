@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Task</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/business-tasks.css') }}">
     <style>
         .nav-pills {
@@ -56,29 +57,29 @@
                     <h1 class="app-title">Create New Task</h1>
                     <div class="nav-pills">
                         <div class="nav-pill active">
-                            <span class="pill-icon">📝</span>
+                            <i class="fas fa-edit pill-icon"></i>
                             <span>New Task</span>
                         </div>
                         <div class="nav-pill-separator">•</div>
                         <div class="nav-pill">
-                            <span class="pill-icon">📅</span>
+                            <i class="fas fa-calendar-day pill-icon"></i>
                             <span>{{ date('F j, Y') }}</span>
                         </div>
                         <div class="nav-pill-separator">•</div>
                         <div class="nav-pill">
-                            <span class="pill-icon">⏰</span>
+                            <i class="fas fa-clock pill-icon"></i>
                             <span id="live-time">{{ date('g:i A') }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="header-actions">
-                    <a href="{{ route('tasks.index') }}" class="create-btn">
-                        <span class="create-icon">←</span>
-                        <span>Back to Tasks</span>
+                    <a href="{{ route('tasks.index') }}" class="nav-btn nav-btn-outline">
+                        <i class="fas fa-list"></i>
+                        <span>Tasks</span>
                     </a>
-                    <a href="/dashboard" class="create-btn" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);">
-                        <span class="create-icon">🏠</span>
-                        <span>Dashboard</span>
+                    <a href="/dashboard" class="nav-btn nav-btn-outline">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
                     </a>
                 </div>
             </div>
@@ -125,8 +126,8 @@
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <select name="status" id="status" required>
-                                    <option value="-1">⏸ Pending</option>
-                                    <option value="0">⏳ In Progress</option>
+                                    <option value="-1"><i class="fas fa-pause"></i> Pending</option>
+                                    <option value="0"><i class="fas fa-spinner"></i> In Progress</option>
                                     
                                 </select>
                             </div>
@@ -134,9 +135,9 @@
                             <div class="form-group">
                                 <label for="priority">Priority</label>
                                 <select name="priority" id="priority" required>
-                                    <option value="low">🟢 Low</option>
-                                    <option value="medium">🟡 Medium</option>
-                                    <option value="high">🔴 High</option>
+                                    <option value="low"><i class="fas fa-circle" style="color: #10b981;"></i> Low</option>
+                                    <option value="medium"><i class="fas fa-circle" style="color: #f59e0b;"></i> Medium</option>
+                                    <option value="high"><i class="fas fa-circle" style="color: #ef4444;"></i> High</option>
                                 </select>
                             </div>
 
@@ -170,12 +171,12 @@
 
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">
-                            <span>✓</span>
+                            <i class="fas fa-check"></i>
                             Create Task
                         </button>
                         <br>
                         <a href="{{ route('tasks.index') }}" class="btn btn-secondary">
-                            <span>✕</span>
+                            <i class="fas fa-times"></i>
                             Cancel
                         </a>
                     </div>

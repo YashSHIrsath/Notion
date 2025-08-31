@@ -6,6 +6,7 @@
     <title>Register - Task Manager</title>
     <link rel="stylesheet" href="{{ asset('css/business-tasks.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .auth-container {
             min-height: 100vh;
@@ -309,27 +310,27 @@
                 
                 <div class="form-field">
                     <input type="text" name="name" placeholder="Enter your full name" required value="{{ old('name') }}">
-                    <span class="form-icon">👤</span>
+                    <i class="fas fa-user form-icon"></i>
                 </div>
                 
                 <div class="form-field">
                     <input type="email" name="email" placeholder="Enter your email" required value="{{ old('email') }}">
-                    <span class="form-icon">📧</span>
+                    <i class="fas fa-envelope form-icon"></i>
                 </div>
                 
                 <div class="form-field">
                     <input type="password" name="password" placeholder="Create a password" required>
-                    <span class="form-icon">🔒</span>
+                    <i class="fas fa-lock form-icon"></i>
                 </div>
                 
                 <div class="form-field">
                     <input type="password" name="password_confirmation" placeholder="Confirm your password" required>
-                    <span class="form-icon">🔐</span>
+                    <i class="fas fa-key form-icon"></i>
                 </div>
                 
                 <div class="form-field">
                     <button type="submit" class="register-btn">
-                        <span>✨</span>
+                        <i class="fas fa-user-plus"></i>
                         <span>Create Account</span>
                     </button>
                 </div>
@@ -340,7 +341,7 @@
                     <ul class="error-list">
                         @foreach($errors->all() as $error)
                             <li>
-                                <span>⚠️</span>
+                                <i class="fas fa-exclamation-triangle"></i>
                                 <span>{{ $error }}</span>
                             </li>
                         @endforeach

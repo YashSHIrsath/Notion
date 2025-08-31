@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Task</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/business-tasks.css') }}">
 </head>
 <body>
@@ -13,13 +14,17 @@
             <div class="header-content">
                 <h1 class="app-title">Edit Task <span class="title-date">{{ $task->created_at->format('M d, Y') }}</span></h1>
                 <div class="header-actions">
-                    <a href="{{ route('tasks.show', $task->id) }}" class="create-btn btn-view-header">
-                        <span class="create-icon">👁️</span>
-                        <span>View Task</span>
+                    <a href="{{ route('tasks.show', $task->id) }}" class="nav-btn">
+                        <i class="fas fa-eye"></i>
+                        <span>View</span>
                     </a>
-                    <a href="{{ route('tasks.index') }}" class="create-btn">
-                        <span class="create-icon">←</span>
-                        <span>Back to task</span>
+                    <a href="{{ route('tasks.index') }}" class="nav-btn nav-btn-outline">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Tasks</span>
+                    </a>
+                    <a href="/dashboard" class="nav-btn nav-btn-outline">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
                     </a>
                 </div>
             </div>
@@ -63,8 +68,8 @@
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <select name="status" id="status" required>
-                                    <option value="-1" {{ $task->status == -1 ? 'selected' : '' }}>⏸ Pending</option>
-                                    <option value="0" {{ $task->status == 0 ? 'selected' : '' }}>⏳ In Progress</option>
+                                    <option value="-1" {{ $task->status == -1 ? 'selected' : '' }}><i class="fas fa-pause"></i> Pending</option>
+                                    <option value="0" {{ $task->status == 0 ? 'selected' : '' }}><i class="fas fa-spinner"></i> In Progress</option>
                                     
                                 </select>
                             </div>
@@ -72,9 +77,9 @@
                             <div class="form-group">
                                 <label for="priority">Priority</label>
                                 <select name="priority" id="priority" required>
-                                    <option value="low" {{ $task->priority == 'low' ? 'selected' : '' }}>🟢 Low</option>
-                                    <option value="medium" {{ $task->priority == 'medium' ? 'selected' : '' }}>🟡 Medium</option>
-                                    <option value="high" {{ $task->priority == 'high' ? 'selected' : '' }}>🔴 High</option>
+                                    <option value="low" {{ $task->priority == 'low' ? 'selected' : '' }}><i class="fas fa-circle" style="color: #10b981;"></i> Low</option>
+                                    <option value="medium" {{ $task->priority == 'medium' ? 'selected' : '' }}><i class="fas fa-circle" style="color: #f59e0b;"></i> Medium</option>
+                                    <option value="high" {{ $task->priority == 'high' ? 'selected' : '' }}><i class="fas fa-circle" style="color: #ef4444;"></i> High</option>
                                 </select>
                             </div>
 
@@ -111,11 +116,11 @@
 
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">
-                            <span>💾</span>
+                            <i class="fas fa-save"></i>
                             Update Task
                         </button>
                         <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-secondary">
-                            <span>✕</span>
+                            <i class="fas fa-times"></i>
                             Cancel
                         </a>
                     </div>

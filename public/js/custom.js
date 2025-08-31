@@ -30,8 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Add click handlers to complete buttons
-    document.querySelectorAll(".complete-btn").forEach((button) => {
+    // Add click handlers to complete buttons and circle buttons
+    document.querySelectorAll(".complete-btn, .complete-circle").forEach((button) => {
         button.addEventListener("click", function () {
             const taskItem = this.closest(".task-item");
 
@@ -104,7 +104,13 @@ document.addEventListener("DOMContentLoaded", function () {
             editBtn.style.pointerEvents = "none";
         }
         if (completeBtn) {
-            completeBtn.innerHTML = "❌ Not Complete";
+            completeBtn.innerHTML = '<i class="fas fa-times-circle"></i> Mark Incomplete';
+        }
+        
+        // Update circle button
+        const circleBtn = taskItem.querySelector(".complete-circle");
+        if (circleBtn) {
+            circleBtn.innerHTML = '<i class="fas fa-check-circle"></i>';
         }
 
         // Replace overdue warning with congratulations for overdue tasks
@@ -153,7 +159,13 @@ document.addEventListener("DOMContentLoaded", function () {
             editBtn.style.pointerEvents = "";
         }
         if (completeBtn) {
-            completeBtn.innerHTML = "✅ Mark Complete";
+            completeBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
+        }
+        
+        // Update circle button
+        const circleBtn = taskItem.querySelector(".complete-circle");
+        if (circleBtn) {
+            circleBtn.innerHTML = '<i class="far fa-circle"></i>';
         }
 
         // Restore overdue warning when not completed (if overdue)

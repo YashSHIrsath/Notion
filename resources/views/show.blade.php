@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Details</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/business-tasks.css') }}">
     <style>
         /* Container Animations Only */
@@ -121,13 +122,17 @@
                     <div class="date-pill">Created {{ \Carbon\Carbon::parse($task->created_at)->format('F j, Y') }}</div>
                 </div>
                 <div class="header-actions">
-                    <a href="{{ route('tasks.edit', $task->id) }}" class="create-btn btn-edit-header">
-                        <span class="create-icon">✏️</span>
-                        <span>Edit Task</span>
+                    <a href="{{ route('tasks.edit', $task->id) }}" class="nav-btn">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit</span>
                     </a>
-                    <a href="{{ route('tasks.index') }}" class="create-btn">
-                        <span class="create-icon">←</span>
-                        <span>Back to Tasks</span>
+                    <a href="{{ route('tasks.index') }}" class="nav-btn nav-btn-outline">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Tasks</span>
+                    </a>
+                    <a href="/dashboard" class="nav-btn nav-btn-outline">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
                     </a>
                 </div>
             </div>
@@ -143,13 +148,13 @@
                         </div>
                         <div class="task-status-badge">
                             @if ($task->status == 1)
-                                <span class="status completed">✓</span>
+                                <span class="status completed"><i class="fas fa-check-circle"></i></span>
                             @elseif($task->status == 0)
-                                <span class="status in-progress">⏳</span>
+                                <span class="status in-progress"><i class="fas fa-spinner fa-spin"></i></span>
                             @elseif($task->status == -1)
-                                <span class="status pending">⏸</span>
+                                <span class="status pending"><i class="fas fa-pause-circle"></i></span>
                             @else
-                                <span class="status unknown">?</span>
+                                <span class="status unknown"><i class="fas fa-question-circle"></i></span>
                             @endif
                         </div>
                     </div>
@@ -170,18 +175,18 @@
                         <div class="task-meta-grid">
                             <div class="meta-card">
                                 <div class="meta-label">Due Date</div>
-                                <div class="meta-value">📅 {{ $task->due_date }}</div>
+                                <div class="meta-value"><i class="fas fa-calendar-alt"></i> {{ $task->due_date }}</div>
                             </div>
                             
                             <div class="meta-card priority-card-{{ $task->priority }}">
                                 <div class="meta-label">Priority</div>
                                 <div class="meta-value priority-{{ $task->priority }}" style="text-transform: capitalize;background-color:transparent;">
                                     @if($task->priority == 'high')
-                                        🔴 High
+                                        <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i> High
                                     @elseif($task->priority == 'medium')
-                                        🟡 Medium
+                                        <i class="fas fa-exclamation-circle" style="color: #f59e0b;"></i> Medium
                                     @else
-                                        🟢 Low
+                                        <i class="fas fa-info-circle" style="color: #10b981;"></i> Low
                                     @endif
                                 </div>
                             </div>
@@ -195,13 +200,13 @@
                                 <div class="meta-label">Status</div>
                                 <div class="meta-value">
                                     @if ($task->status == 1)
-                                        ✅ Completed
+                                        <i class="fas fa-check-circle" style="color: #10b981;"></i> Completed
                                     @elseif($task->status == 0)
-                                        🔄 In Progress
+                                        <i class="fas fa-spinner" style="color: #f59e0b;"></i> In Progress
                                     @elseif($task->status == -1)
-                                        ⏳ Pending
+                                        <i class="fas fa-pause-circle" style="color: #64748b;"></i> Pending
                                     @else
-                                        ❓ Unknown
+                                        <i class="fas fa-question-circle" style="color: #ef4444;"></i> Unknown
                                     @endif
                                 </div>
                             </div>
@@ -212,18 +217,18 @@
                 <div class="task-actions-section">
                     <div class="action-buttons">
                         <a href="{{ route('tasks.edit', $task->id) }}" class="btn-edit action-btn-enhanced">
-                            <span>✏️</span>
+                            <i class="fas fa-edit"></i>
                             Edit Task
                         </a>
                         <a href="{{ route('tasks.index') }}" class="btn btn-view action-btn-enhanced">
-                            <span>📋</span>
+                            <i class="fas fa-list"></i>
                             All Tasks
                         </a>
                         <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="delete-form">
                             @csrf 
                             @method('DELETE')
                             <button type="submit" class="btn-delete action-btn-enhanced danger-btn" onclick="return confirm('Are you sure you want to delete this task?')">
-                                <span>🗑️</span>
+                                <i class="fas fa-trash-alt"></i>
                                 Delete Task
                             </button>
                         </form>

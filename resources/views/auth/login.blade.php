@@ -6,6 +6,7 @@
     <title>Login - Task Manager</title>
     <link rel="stylesheet" href="{{ asset('css/business-tasks.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .auth-container {
             min-height: 100vh;
@@ -280,24 +281,24 @@
                 @csrf
                 
                 <div class="form-field">
-                    <span class="form-icon">📧</span>
+                    <i class="fas fa-envelope form-icon"></i>
                     <input type="email" name="email" placeholder="Enter your email" required value="{{ old('email') }}">
                 </div>
                 
                 <div class="form-field">
-                    <span class="form-icon">🔒</span>
+                    <i class="fas fa-lock form-icon"></i>
                     <input type="password" name="password" placeholder="Enter your password" required>
                 </div>
                 
                 <button type="submit" class="login-btn">
-                    <span>🚀</span>
+                    <i class="fas fa-sign-in-alt"></i>
                     <span>Sign In</span>
                 </button>
             </form>
             
             @if($errors->any())
                 <div class="error-message">
-                    <span>⚠️</span>
+                    <i class="fas fa-exclamation-triangle"></i>
                     <span>{{ $errors->first() }}</span>
                 </div>
             @endif
