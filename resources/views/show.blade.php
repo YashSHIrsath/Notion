@@ -118,7 +118,10 @@
         <header class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1 class="app-title">Task Details</h1>
+                    <div class="app-logo">
+                        <i class="fas fa-cube logo-icon"></i>
+                        <h1 class="app-title">Task Details</h1>
+                    </div>
                     <div class="date-pill">Created {{ \Carbon\Carbon::parse($task->created_at)->format('F j, Y') }}</div>
                 </div>
                 <div class="header-actions">

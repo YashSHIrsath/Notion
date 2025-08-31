@@ -1,36 +1,25 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let completedTasks = JSON.parse(localStorage.getItem("completedTasks") || "[]");
-    let notCompleteTasks = JSON.parse(localStorage.getItem("notCompleteTasks") || "[]");
+    // Load completed and not complete tasks from localStorage
+    let completedTasks = JSON.parse(localStorage.getItem("completedTasks")) || [];
+    let notCompleteTasks = JSON.parse(localStorage.getItem("notCompleteTasks")) || [];
 
-    // Process each task on page load
-    document.querySelectorAll(".task-item").forEach((taskItem) => {
-        const taskId = getTaskId(taskItem);
-        if (!taskId) return;
-
-        // Handle overdue tasks - check if completed via JS
-        if (taskItem.classList.contains("overdue")) {
-            if (completedTasks.includes(taskId)) {
-                applyCompletedStyling(taskItem);
-            }
-            return;
-        }
-
-        const status = taskItem.querySelector(".status");
-        const isDbCompleted = status && status.classList.contains("completed");
-
-        // Apply localStorage overrides
-        if (notCompleteTasks.includes(taskId)) {
-            removeCompletedStyling(taskItem);
-        } else if (completedTasks.includes(taskId) || isDbCompleted) {
+    // Apply completed styling on page load
+    completedTasks.forEach((taskId) => {
+        const taskItem = document.querySelector(`[data-task-id="${taskId}"]`);
+        if (taskItem) {
             applyCompletedStyling(taskItem);
-            if (isDbCompleted && !completedTasks.includes(taskId)) {
-                completedTasks.push(taskId);
-                localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
-            }
         }
     });
 
-    // Add click handlers to complete buttons and circle buttons
+    // Apply not complete styling on page load
+    notCompleteTasks.forEach((taskId) => {
+        const taskItem = document.querySelector(`[data-task-id="${taskId}"]`);
+        if (taskItem) {
+            removeCompletedStyling(taskItem);
+        }
+    });
+
+    // Add event listeners for complete buttons and circle buttons
     document.querySelectorAll(".complete-btn, .complete-circle").forEach((button) => {
         button.addEventListener("click", function () {
             const taskItem = this.closest(".task-item");
@@ -207,10 +196,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const container = document.querySelector('.tasks-container');
         if (!container) return;
         
-        // Remove existing separator
+        // Remove existing separator and add task button
         const existingSeparator = container.querySelector('.completed-separator');
         if (existingSeparator) {
             existingSeparator.remove();
+        }
+        const existingAddBtn = container.querySelector('.all-completed-add-task');
+        if (existingAddBtn) {
+            existingAddBtn.remove();
         }
         
         const tasks = Array.from(container.querySelectorAll('.task-item'));
@@ -225,14 +218,42 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
         
+        // If all tasks are completed and there are tasks, show add task button
+        if (tasks.length > 0 && incompleteTasks.length === 0) {
+            const addTaskBtn = document.createElement('div');
+            addTaskBtn.className = 'all-completed-add-task';
+            addTaskBtn.innerHTML = `
+                <div style="text-align: center; padding: 3rem 0; color: #8b5cf6;">
+                    <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.7;"></i>
+                    <h3 style="margin-bottom: 1rem;">All tasks completed! 🎉</h3>
+                    <a href="/tasks/create" class="nav-btn primary" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                        <i class="fas fa-plus"></i> Add New Task
+                    </a>
+                </div>
+            `;
+            container.insertBefore(addTaskBtn, container.firstChild);
+        }
+        
         // Reorder tasks in container
         incompleteTasks.forEach(task => container.appendChild(task));
         
-        // Add separator if there are completed tasks
-        if (completedTasksArray.length > 0) {
+        // Add separator if there are completed tasks and incomplete tasks
+        if (completedTasksArray.length > 0 && incompleteTasks.length > 0) {
             const separator = document.createElement('div');
             separator.className = 'completed-separator';
-            separator.innerHTML = '<hr style="border: 1px solid #4a5568; margin: 2rem 0; opacity: 0.5;"><h3 style="text-align: center; color: #8b5cf6; margin: 1rem 0;">Completed Tasks</h3>';
+            separator.innerHTML = `
+                <div class="completed-section-divider">
+                    <div class="divider-line"></div>
+                    <div class="completed-heading-container">
+                        <div class="completed-heading" onclick="toggleCompletedTasks()">
+                            <i class="fas fa-check-circle completed-icon"></i>
+                            <span class="completed-text">Completed Tasks</span>
+                            <div class="completed-badge">${completedTasksArray.length}</div>
+                            <i class="fas fa-chevron-down completed-toggle-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
             container.appendChild(separator);
         }
         
@@ -240,8 +261,25 @@ document.addEventListener("DOMContentLoaded", function () {
         completedTasksArray.forEach(task => container.appendChild(task));
     }
     
+
+    
     // Sort tasks on page load
     setTimeout(sortTasks, 100);
+    
+    // Toggle completed tasks visibility
+    window.toggleCompletedTasks = function() {
+        const completedTasks = document.querySelectorAll('.task-item.task-completed');
+        const toggleIcon = document.querySelector('.completed-toggle-icon');
+        const isHidden = completedTasks[0]?.style.display === 'none';
+        
+        completedTasks.forEach(task => {
+            task.style.display = isHidden ? 'block' : 'none';
+        });
+        
+        if (toggleIcon) {
+            toggleIcon.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(-90deg)';
+        }
+    };
     
     // Navigation hide/show on scroll
     const header = document.querySelector('header');

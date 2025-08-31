@@ -12,7 +12,10 @@
     <div class="app">
         <header class="header">
             <div class="header-content">
-                <h1 class="app-title">Edit Task <span class="title-date">{{ $task->created_at->format('M d, Y') }}</span></h1>
+                <div class="app-logo">
+                    <i class="fas fa-cube logo-icon"></i>
+                    <h1 class="app-title">Edit Task <span class="title-date">{{ $task->created_at->format('M d, Y') }}</span></h1>
+                </div>
                 <div class="header-actions">
                     <a href="{{ route('tasks.show', $task->id) }}" class="nav-btn">
                         <i class="fas fa-eye"></i>

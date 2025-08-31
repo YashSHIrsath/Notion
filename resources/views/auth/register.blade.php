@@ -6,6 +6,7 @@
     <title>Register - Task Manager</title>
     <link rel="stylesheet" href="{{ asset('css/business-tasks.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .auth-container {
@@ -300,7 +301,10 @@
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <div class="company-name">Notion</div>
+                <div class="app-logo-auth">
+                    <i class="fas fa-cube logo-icon-auth"></i>
+                    <div class="company-name">Notion</div>
+                </div>
                 <h1 class="auth-title">Create Account</h1>
                 <p class="auth-subtitle">Join your very own Task Manager</p>
             </div>

@@ -54,7 +54,10 @@
         <header class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <h1 class="app-title">Create New Task</h1>
+                    <div class="app-logo">
+                        <i class="fas fa-cube logo-icon"></i>
+                        <h1 class="app-title">Create New Task</h1>
+                    </div>
                     <div class="nav-pills">
                         <div class="nav-pill active">
                             <i class="fas fa-edit pill-icon"></i>
