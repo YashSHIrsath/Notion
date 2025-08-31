@@ -52,7 +52,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
 }
+
+*::-webkit-scrollbar{
+  display: none;}
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -80,15 +84,15 @@ body {
 }
 
 .header {
-  background: var(--card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   position: sticky;
   top: 0;
   z-index: 100;
   transition: transform 0.3s ease-in-out;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .header-content {
@@ -424,17 +428,23 @@ h1, h2, h3, h4, h5, h6 {
   flex-wrap: wrap;
 }
 
-.task-bar-collapsed > * {
+.task-bar-collapsed > *,
+.completed-task .task-bar-collapsed > * {
   opacity: 0;
   transform: translateY(2px);
   animation: pillSlideIn 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.task-bar-collapsed > *:nth-child(1) { animation-delay: 0.02s; }
-.task-bar-collapsed > *:nth-child(2) { animation-delay: 0.04s; }
-.task-bar-collapsed > *:nth-child(3) { animation-delay: 0.06s; }
-.task-bar-collapsed > *:nth-child(4) { animation-delay: 0.08s; }
-.task-bar-collapsed > *:nth-child(5) { animation-delay: 0.1s; }
+.task-bar-collapsed > *:nth-child(1),
+.completed-task .task-bar-collapsed > *:nth-child(1) { animation-delay: 0.02s; }
+.task-bar-collapsed > *:nth-child(2),
+.completed-task .task-bar-collapsed > *:nth-child(2) { animation-delay: 0.04s; }
+.task-bar-collapsed > *:nth-child(3),
+.completed-task .task-bar-collapsed > *:nth-child(3) { animation-delay: 0.06s; }
+.task-bar-collapsed > *:nth-child(4),
+.completed-task .task-bar-collapsed > *:nth-child(4) { animation-delay: 0.08s; }
+.task-bar-collapsed > *:nth-child(5),
+.completed-task .task-bar-collapsed > *:nth-child(5) { animation-delay: 0.1s; }
 
 @keyframes pillSlideIn {
   0% {
@@ -1153,6 +1163,14 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1rem;
   font-weight: 500;
   flex-shrink: 0;
+}
+
+.status i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
 }
 
 .status.completed { background: rgba(16, 185, 129, 0.1); color: var(--success); }

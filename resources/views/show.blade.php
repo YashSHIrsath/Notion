@@ -240,5 +240,6 @@
             </div>
         </main>
     </div>
+    <script src="{{ asset('js/keyboard-shortcuts.js') }}"></script>
 </body>
 </html>

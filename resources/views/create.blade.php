@@ -261,4 +261,5 @@ function toggleCustomCategory() {
     }
 }
 </script>
+<script src="{{ asset('js/keyboard-shortcuts.js') }}"></script>
 </html>

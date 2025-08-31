@@ -157,7 +157,7 @@
                         <h3><i class="fas fa-keyboard"></i> Quick Tips</h3>
                         <div class="shortcuts-list">
                             <div class="shortcut-item">
-                                <kbd>Ctrl</kbd> + <kbd>N</kbd>
+                                <kbd>Ctrl</kbd> + <kbd>b</kbd>
                                 <span>New Task</span>
                             </div>
                             <div class="shortcut-item">
@@ -495,5 +495,6 @@
             alert(randomTip);
         }
     </script>
+    <script src="{{ asset('js/keyboard-shortcuts.js') }}"></script>
 </body>
 </html>

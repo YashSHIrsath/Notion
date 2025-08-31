@@ -190,7 +190,7 @@
                 @if($completedTasks->isNotEmpty())
                     <div class="completed-section">
                         <div class="completed-header" onclick="toggleCompletedTasks()">
-                            <h3>Completed Tasks ({{ $completedTasks->count() }})</h3>
+                            <h3>{{ ucfirst(explode(' ', Auth::user()->name)[0]) }}'s Remaining Tasks ({{ $completedTasks->count() }})</h3>
                             <i class="fas fa-chevron-down" id="completed-chevron"></i>
                         </div>
                         <div class="completed-tasks" id="completed-tasks" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;">
@@ -262,6 +262,7 @@
 </body>
 
 <script src="{{ asset('js/custom.js')  }}"></script>
+<script src="{{ asset('js/keyboard-shortcuts.js') }}"></script>
 <script>
 function toggleTask(taskId) {
     const taskItem = document.querySelector(`[data-task-id="${taskId}"]`);
