@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks</title>
+    <title>Notion : Tasks</title>
     <link rel="stylesheet" href="{{ asset('css/business-tasks.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Baumans&family=Playwrite+DE+Grund:wght@100..400&display=swap" rel="stylesheet">
@@ -51,16 +51,19 @@
         @endif
         
         <main class="main-content">
-            <div class="sort-container">
+            <div class="tasks-header">
+                <h2 class="tasks-title">{{ ucfirst(explode(' ', Auth::user()->name)[0]) }}'s Tasks</h2>
                 <form action="{{ route('tasks.index') }}" method="GET" class="sort-form">
                     <input type="hidden" name="search" value="{{ $search }}">
                     <select name="sort" class="sort-select" onchange="this.form.submit()">
-                        <option value="due_date_asc" {{ request('sort') == 'due_date_asc' ? 'selected' : '' }}><i class="fas fa-calendar-alt"></i> Due Date △</option>
-                        <option value="due_date_desc" {{ request('sort') == 'due_date_desc' ? 'selected' : '' }}><i class="fas fa-calendar-alt"></i> Due Date ▽</option>
-                        <option value="title_asc" {{ request('sort') == 'title_asc' ? 'selected' : '' }}><i class="fas fa-sort-alpha-down"></i> Title A-Z</option>
-                        <option value="title_desc" {{ request('sort') == 'title_desc' ? 'selected' : '' }}><i class="fas fa-sort-alpha-up"></i> Title Z-A</option>
-                        <option value="created_asc" {{ request('sort') == 'created_asc' ? 'selected' : '' }}><i class="fas fa-calendar-plus"></i> Created △</option>
-                        <option value="created_desc" {{ request('sort') == 'created_desc' ? 'selected' : '' }}><i class="fas fa-calendar-plus"></i> Created ▽</option>
+                        <option value="due_date_asc" {{ request('sort') == 'due_date_asc' ? 'selected' : '' }}>Due Date (Earliest)    📅</option>
+                        <option value="due_date_desc" {{ request('sort') == 'due_date_desc' ? 'selected' : '' }}>Due Date (Latest)    📅</option>
+                        <option value="priority_desc" {{ request('sort') == 'priority_desc' ? 'selected' : '' }}>Priority (High to Low)    ⚡</option>
+                        <option value="priority_asc" {{ request('sort') == 'priority_asc' ? 'selected' : '' }}>Priority (Low to High)    ⚡</option>
+                        <option value="title_asc" {{ request('sort') == 'title_asc' ? 'selected' : '' }}>Title (A to Z)    🔤</option>
+                        <option value="title_desc" {{ request('sort') == 'title_desc' ? 'selected' : '' }}>Title (Z to A)    🔤</option>
+                        <option value="created_desc" {{ request('sort') == 'created_desc' ? 'selected' : '' }}>Recently Created    ✨</option>
+                        <option value="created_asc" {{ request('sort') == 'created_asc' ? 'selected' : '' }}>Oldest First    ⏰</option>
                     </select>
                 </form>
             </div>
@@ -71,7 +74,7 @@
                         $daysRemaining = ceil(\Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($task->due_date), false));
                         $daysRemainingClass = $daysRemaining < 0 ? 'overdue' : ($daysRemaining <= 1 ? 'urgent' : ($daysRemaining <= 3 ? 'warning' : 'safe'));
                     @endphp
-                    <article class="task-item priority-{{ $task->priority }} collapsed" data-task-id="{{ $task->id }}">
+                    <article class="task-item priority-{{ $task->priority }} {{ $task->status == 1 ? 'completed-task' : '' }} collapsed" data-task-id="{{ $task->id }}">
                         <div class="task-bar" onclick="toggleTask({{ $task->id }})">
                             <div class="task-bar-left">
                                 <div class="task-bar-title">{{ ucfirst($task->title) }}</div>
@@ -119,11 +122,20 @@
                                         <i class="far fa-circle"></i>
                                     @endif
                                 </button>
-                                <a href="{{ route('tasks.show', $task->id) }}" class="task-bar-btn view" onclick="event.stopPropagation()"><i class="fas fa-eye"></i></a>
+                                @if($task->status == 1)
+                                    <span class="task-bar-btn view disabled"><i class="fas fa-eye"></i></span>
+                                @else
+                                    <a href="{{ route('tasks.show', $task->id) }}" class="task-bar-btn view" onclick="event.stopPropagation()"><i class="fas fa-eye"></i></a>
+                                @endif
                                 <a href="{{ route('tasks.edit', $task->id) }}" class="task-bar-btn edit" onclick="event.stopPropagation()"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="delete-form" style="display: inline;">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="task-bar-btn delete" onclick="event.stopPropagation(); return confirm('Delete task?')"><i class="fas fa-trash"></i></button>
+                                @if($task->status == 1)
+                                    <span class="task-bar-btn delete disabled"><i class="fas fa-trash"></i></span>
+                                @else
+                                    <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="delete-form" style="display: inline;">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="task-bar-btn delete" onclick="event.stopPropagation(); return confirm('Delete task?')"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                @endif</i></button>
                                 </form>
                                 <i class="fas fa-chevron-down expand-icon"></i>
                             </div>
@@ -201,6 +213,55 @@ function toggleTask(taskId) {
 function toggleComplete(taskId) {
     // Add your completion toggle logic here
     console.log('Toggle complete for task:', taskId);
+}
+
+// Auto-hide notifications after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    const notifications = document.querySelectorAll('.notification');
+    notifications.forEach(notification => {
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            setTimeout(() => {
+                notification.remove();
+            }, 400);
+        }, 3000);
+    });
+    
+    // Apply completed task styling
+    applyCompletedTaskStyling();
+});
+
+function applyCompletedTaskStyling() {
+    const completedTasks = document.querySelectorAll('.task-item');
+    completedTasks.forEach(task => {
+        const statusIcon = task.querySelector('.status i');
+        if (statusIcon && statusIcon.classList.contains('fa-check-circle')) {
+            // Apply blue glassmorphic completed styling
+            task.style.borderLeft = '4px solid #3b82f6';
+            task.style.background = 'rgba(59, 130, 246, 0.1)';
+            task.style.backdropFilter = 'blur(20px)';
+            task.style.webkitBackdropFilter = 'blur(20px)';
+            task.style.border = '1px solid rgba(59, 130, 246, 0.2)';
+            task.style.opacity = '0.8';
+            
+            // Strikethrough title
+            const title = task.querySelector('.task-bar-title');
+            if (title) {
+                title.style.textDecoration = 'line-through';
+                title.style.color = '#64748b';
+            }
+            
+            // Change priority badge to "Completed" with blue styling
+            const priorityBadges = task.querySelectorAll('.priority-badge');
+            priorityBadges.forEach(badge => {
+                badge.innerHTML = '<i class="fas fa-check"></i> Completed';
+                badge.style.background = 'rgba(59, 130, 246, 0.2)';
+                badge.style.color = '#3b82f6';
+                badge.style.borderColor = 'rgba(59, 130, 246, 0.4)';
+                badge.style.fontWeight = '600';
+            });
+        }
+    });
 }
 </script>
 

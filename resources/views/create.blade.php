@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Task</title>
+    <title>Notion : Create Task</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/business-tasks.css') }}">
@@ -95,58 +95,57 @@
                     @csrf
                     
                     <div class="form-section">
-                        <h2 class="section-title">Basic Information</h2>
+                        <h2 class="section-title"><i class="fas fa-info-circle"></i> Basic Information</h2>
                         
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="title">Task Title</label>
+                                <label for="title"><i class="fas fa-tasks"></i> Task Title</label>
                                 <input type="text" name="title" id="title" placeholder="Enter task title" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="description">Description</label>
+                                <label for="description"><i class="fas fa-align-left"></i> Description</label>
                                 <textarea name="description" id="description" rows="3" placeholder="Brief description of the task" required></textarea>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="long_description">Detailed Information</label>
+                                <label for="long_description"><i class="fas fa-file-alt"></i> Detailed Information</label>
                                 <textarea name="long_description" id="long_description" rows="4" placeholder="Additional details, notes, or requirements" required></textarea>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-section">
-                        <h2 class="section-title">Task Settings</h2>
+                        <h2 class="section-title"><i class="fas fa-cogs"></i> Task Settings</h2>
                         
                         <div class="form-row form-row-3">
                             <div class="form-group">
-                                <label for="status">Status</label>
+                                <label for="status"><i class="fas fa-tasks"></i> Status</label>
                                 <select name="status" id="status" required>
-                                    <option value="-1"><i class="fas fa-pause"></i> Pending</option>
-                                    <option value="0"><i class="fas fa-spinner"></i> In Progress</option>
-                                    
+                                    <option value="-1">⏸ Pending</option>
+                                    <option value="0">⟳ In Progress</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="priority">Priority</label>
+                                <label for="priority"><i class="fas fa-flag"></i> Priority</label>
                                 <select name="priority" id="priority" required>
-                                    <option value="low"><i class="fas fa-circle" style="color: #10b981;"></i> Low</option>
-                                    <option value="medium"><i class="fas fa-circle" style="color: #f59e0b;"></i> Medium</option>
-                                    <option value="high"><i class="fas fa-circle" style="color: #ef4444;"></i> High</option>
+                                    <option value="low" style="color: #10b981;">● Low</option>
+                                    <option value="medium" style="color: #f59e0b;">● Medium</option>
+                                    <option value="high" style="color: #ef4444;">● High</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="category">Category</label>
+                                <label for="category"><i class="fas fa-tags"></i> Category</label>
                                 <select name="category" id="category" onchange="toggleCustomCategory()" required>
-                                    <option value="Casual">Casual</option>
-                                    <option value="Business">Business</option>
-                                    <option value="Fun">Fun</option>
+                                    <option value="Casual">☕ Casual</option>
+                                    <option value="Business">💼 Business</option>
+                                    <option value="Fun">🎮 Fun</option>
                                     <option value="custom">+ Add Custom Category</option>
                                 </select>
                                 <input type="text" name="custom_category" id="custom_category" placeholder="Enter custom category" style="display:none;margin-top:0.5rem;">
@@ -155,7 +154,7 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="due_date">Due Date</label>
+                                <label for="due_date"><i class="fas fa-calendar-alt"></i> Due Date</label>
                                 <div class="date-input-wrapper">
                                     <input type="date" name="due_date" id="due_date" min="{{ date('Y-m-d') }}" max="{{ date('Y-m-d', strtotime('+5 years')) }}" required>
                                     <div class="quick-date-buttons">

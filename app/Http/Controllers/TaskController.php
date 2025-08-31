@@ -28,6 +28,12 @@ class TaskController extends Controller
             case 'due_date_desc':
                 $query->orderBy('due_date', 'desc');
                 break;
+            case 'priority_asc':
+                $query->orderByRaw("FIELD(priority, 'low', 'medium', 'high')");
+                break;
+            case 'priority_desc':
+                $query->orderByRaw("FIELD(priority, 'high', 'medium', 'low')");
+                break;
             case 'title_asc':
                 $query->orderBy('title', 'asc');
                 break;

@@ -34,12 +34,10 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".complete-btn, .complete-circle").forEach((button) => {
         button.addEventListener("click", function () {
             const taskItem = this.closest(".task-item");
-
             const taskId = getTaskId(taskItem);
             if (!taskId) return;
 
-            const isCurrentlyCompleted = completedTasks.includes(taskId) || 
-                                       this.innerHTML.includes("Not Complete");
+            const isCurrentlyCompleted = completedTasks.includes(taskId) || this.innerHTML.includes("Not Complete");
 
             if (isCurrentlyCompleted) {
                 // Mark as not complete
@@ -52,6 +50,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         notCompleteTasks.push(taskId);
                     }
                 }
+                
+                // Sort only when moving from completed to incomplete (going up)
+                setTimeout(sortTasks, 100);
             } else {
                 // Mark as complete
                 applyCompletedStyling(taskItem);
@@ -59,6 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     completedTasks.push(taskId);
                 }
                 notCompleteTasks = notCompleteTasks.filter((id) => id !== taskId);
+                
+                // Sort when marking as complete (going down)
+                setTimeout(sortTasks, 100);
             }
 
             localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
@@ -83,30 +87,35 @@ document.addEventListener("DOMContentLoaded", function () {
     function applyCompletedStyling(taskItem) {
         if (!taskItem) return;
 
-        taskItem.style.background = "linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05))";
-        taskItem.style.opacity = "0.8";
+        taskItem.style.background = "#2d1b69";
+        taskItem.style.borderLeft = "4px solid #8b5cf6";
+        taskItem.style.opacity = "0.9";
+        taskItem.style.color = "#e5e7eb";
+        taskItem.classList.add('task-completed');
 
-        const title = taskItem.querySelector(".task-title");
-        const description = taskItem.querySelector(".task-description");
-        if (title) title.style.textDecoration = "line-through";
-        if (description) description.style.textDecoration = "line-through";
+        // Add line-through to task title
+        const taskTitle = taskItem.querySelector(".task-bar-title");
+        if (taskTitle) {
+            taskTitle.style.textDecoration = "line-through";
+        }
 
-        const viewBtn = taskItem.querySelector(".btn-view");
-        const editBtn = taskItem.querySelector(".btn-edit");
-        const completeBtn = taskItem.querySelector(".complete-btn");
-
+        // Disable view and edit buttons
+        const viewBtn = taskItem.querySelector(".task-bar-btn.view");
+        const editBtn = taskItem.querySelector(".task-bar-btn.edit");
         if (viewBtn) {
-            viewBtn.style.opacity = "0.5";
+            viewBtn.style.opacity = "0.3";
             viewBtn.style.pointerEvents = "none";
         }
         if (editBtn) {
-            editBtn.style.opacity = "0.5";
+            editBtn.style.opacity = "0.3";
             editBtn.style.pointerEvents = "none";
         }
+
+        const completeBtn = taskItem.querySelector(".complete-btn");
         if (completeBtn) {
             completeBtn.innerHTML = '<i class="fas fa-times-circle"></i> Mark Incomplete';
         }
-        
+
         // Update circle button
         const circleBtn = taskItem.querySelector(".complete-circle");
         if (circleBtn) {
@@ -140,16 +149,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         taskItem.style.background = "";
         taskItem.style.opacity = "";
+        taskItem.style.color = "";
+        taskItem.style.borderLeft = "";
+        taskItem.classList.remove('task-completed');
 
-        const title = taskItem.querySelector(".task-title");
-        const description = taskItem.querySelector(".task-description");
-        if (title) title.style.textDecoration = "";
-        if (description) description.style.textDecoration = "";
+        // Remove line-through from task title
+        const taskTitle = taskItem.querySelector(".task-bar-title");
+        if (taskTitle) {
+            taskTitle.style.textDecoration = "";
+        }
 
-        const viewBtn = taskItem.querySelector(".btn-view");
-        const editBtn = taskItem.querySelector(".btn-edit");
-        const completeBtn = taskItem.querySelector(".complete-btn");
-
+        // Re-enable view and edit buttons
+        const viewBtn = taskItem.querySelector(".task-bar-btn.view");
+        const editBtn = taskItem.querySelector(".task-bar-btn.edit");
         if (viewBtn) {
             viewBtn.style.opacity = "";
             viewBtn.style.pointerEvents = "";
@@ -158,10 +170,12 @@ document.addEventListener("DOMContentLoaded", function () {
             editBtn.style.opacity = "";
             editBtn.style.pointerEvents = "";
         }
+
+        const completeBtn = taskItem.querySelector(".complete-btn");
         if (completeBtn) {
             completeBtn.innerHTML = '<i class="fas fa-check-circle"></i> Mark Complete';
         }
-        
+
         // Update circle button
         const circleBtn = taskItem.querySelector(".complete-circle");
         if (circleBtn) {
@@ -188,6 +202,47 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     
+    // Sort tasks: incomplete first, then completed
+    function sortTasks() {
+        const container = document.querySelector('.tasks-container');
+        if (!container) return;
+        
+        // Remove existing separator
+        const existingSeparator = container.querySelector('.completed-separator');
+        if (existingSeparator) {
+            existingSeparator.remove();
+        }
+        
+        const tasks = Array.from(container.querySelectorAll('.task-item'));
+        const incompleteTasks = [];
+        const completedTasksArray = [];
+        
+        tasks.forEach(task => {
+            if (task.classList.contains('task-completed')) {
+                completedTasksArray.push(task);
+            } else {
+                incompleteTasks.push(task);
+            }
+        });
+        
+        // Reorder tasks in container
+        incompleteTasks.forEach(task => container.appendChild(task));
+        
+        // Add separator if there are completed tasks
+        if (completedTasksArray.length > 0) {
+            const separator = document.createElement('div');
+            separator.className = 'completed-separator';
+            separator.innerHTML = '<hr style="border: 1px solid #4a5568; margin: 2rem 0; opacity: 0.5;"><h3 style="text-align: center; color: #8b5cf6; margin: 1rem 0;">Completed Tasks</h3>';
+            container.appendChild(separator);
+        }
+        
+        // Add completed tasks
+        completedTasksArray.forEach(task => container.appendChild(task));
+    }
+    
+    // Sort tasks on page load
+    setTimeout(sortTasks, 100);
+    
     // Navigation hide/show on scroll
     const header = document.querySelector('header');
     let lastScrollTop = 0;
@@ -197,10 +252,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
             if (scrollTop === 0) {
-                // At top - show header
                 header.style.transform = 'translateY(0)';
             } else if (scrollTop > lastScrollTop) {
-                // Scrolling down - hide header
                 header.style.transform = 'translateY(-100%)';
             }
             
