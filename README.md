@@ -110,7 +110,7 @@ php artisan migrate
 
 ```bash
 php artisan serve
-Composer run dev
+composer run dev
 ```
 
 ## 🔄 Recent Updates
